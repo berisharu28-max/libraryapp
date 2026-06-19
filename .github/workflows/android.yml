@@ -47,7 +47,7 @@ jobs:
       - name: Build APK
         run: |
           set -x
-          buildozer android debug --verbose
+          yes | buildozer android debug --verbose
 
       - name: Debug build output
         if: always()
