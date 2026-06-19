@@ -33,7 +33,7 @@ jobs:
             libncurses5-dev libbz2-dev liblzma-dev libgdbm-dev libreadline-dev \
             openjdk-17-jdk clang llvm libgl1-mesa-dev libglu1-mesa-dev libpulse-dev libusb-1.0-0-dev
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install --upgrade cython==0.29.34 buildozer==1.4.2
+          python -m pip install --upgrade cython==0.29.34 buildozer==1.6.0
           python -m pip show buildozer
           buildozer --version
 
