@@ -15,7 +15,7 @@ source.dir = .
 version = 0.1
 
 # (list) Application requirements
-requirements = python3,kivy
+requirements = python3,kivy,sqlite3
 
 # (str) Supported orientation (landscape, portrait)
 orientation = portrait
