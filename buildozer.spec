@@ -37,5 +37,6 @@ android.archs = armeabi-v7a
 android.api = 33
 android.minapi = 24
 android.cmdline_tools_version = 33.0.0
+android.ndk = 25b
 # Uncomment if you need Android permissions
 # android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
