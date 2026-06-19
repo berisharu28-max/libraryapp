@@ -37,12 +37,27 @@ jobs:
           python -m pip show buildozer
           buildozer --version
 
+      - name: Debug workspace
+        run: |
+          pwd
+          ls -la
+          find . -maxdepth 2 -type f | sort
+          if [ -d bin ]; then ls -la bin; fi
+
       - name: Build APK
         run: |
           set -x
-          buildozer android debug
+          buildozer android debug --verbose
+
+      - name: Debug build output
+        if: always()
+        run: |
+          echo "=== FIND APK ==="
+          find . -name '*.apk' -o -name '*.aab' | sort
+          if [ -d bin ]; then ls -la bin || true; fi
 
       - name: Upload APK artifact
+        if: success()
         uses: actions/upload-artifact@v5
         with:
           name: libraryapp-apk
