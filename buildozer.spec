@@ -35,9 +35,7 @@ warn_on_root = 1
 [android]
 android.archs = armeabi-v7a
 android.api = 33
-android.minapi = 21
-android.enable_androidx = True
-
-android.cmdline_tools_version + 11.0
+android.minapi = 24
+android.cmdline_tools_version = 33.0.0
 # Uncomment if you need Android permissions
 # android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
