@@ -16,9 +16,13 @@ jobs:
       - name: Install Buildozer and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-pip python3-setuptools python3-wheel python3-venv openjdk-11-jdk unzip zip
-          python3 -m pip install --upgrade pip
-          python3 -m pip install cython buildozer
+          sudo apt-get install -y \
+            python3-pip python3-setuptools python3-wheel python3-virtualenv python3-dev build-essential git \
+            default-jdk openjdk-11-jdk unzip zip \
+            libssl-dev libffi-dev libsqlite3-dev libjpeg-dev libfreetype6-dev zlib1g-dev \
+            libncurses5-dev libbz2-dev liblzma-dev libgdbm-dev
+          python3 -m pip install --upgrade pip setuptools wheel
+          python3 -m pip install --upgrade cython buildozer
 
       - name: Build APK
         run: |
