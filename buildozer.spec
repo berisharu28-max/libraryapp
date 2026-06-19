@@ -33,7 +33,7 @@ log_level = 2
 warn_on_root = 1
 
 [android]
-android.arch = armeabi-v7a
+android.archs = armeabi-v7a
 android.api = 33
 android.minapi = 21
 android.enable_androidx = True
