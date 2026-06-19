@@ -1,0 +1,278 @@
+ScreenManager:
+    LoginScreen:
+        name: "login"
+    DashboardScreen:
+        name: "dashboard"
+    BookScreen:
+        name: "books"
+    IssueScreen:
+        name: "issue"
+    IssuedBooksScreen:
+        name: "issued"
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: 0.09, 0.11, 0.16, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "📚 Library Management System"
+            font_size: "30sp"
+            bold: True
+
+        TextInput:
+            id: username
+            hint_text: "Username"
+            multiline: False
+            size_hint_y: None
+            height: 50
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            password: True
+            multiline: False
+            size_hint_y: None
+            height: 50
+
+        Button:
+            text: "LOGIN"
+            size_hint_y: None
+            height: 55
+            on_press: root.login()
+
+        Label:
+            id: login_status
+            text: ""
+
+<DashboardScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 15
+        canvas.before:
+            Color:
+                rgba: 0.09, 0.11, 0.16, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        Label:
+            text: "🏠 Dashboard"
+            font_size: "28sp"
+            bold: True
+            size_hint_y: None
+            height: 50
+
+        GridLayout:
+            cols: 3
+            spacing: 10
+            size_hint_y: None
+            height: 120
+
+            BoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: 0.2, 0.6, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]
+                Label:
+                    text: "📚 Total"
+                Label:
+                    id: total_books
+                    text: "0"
+                    font_size: "24sp"
+
+            BoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: 0.2, 0.8, 0.4, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]
+                Label:
+                    text: "📖 Issued"
+                Label:
+                    id: issued_books
+                    text: "0"
+                    font_size: "24sp"
+
+            BoxLayout:
+                orientation: "vertical"
+                canvas.before:
+                    Color:
+                        rgba: 1, 0.5, 0.2, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [15]
+                Label:
+                    text: "✅ Available"
+                Label:
+                    id: available_books
+                    text: "0"
+                    font_size: "24sp"
+
+        Button:
+            text: "📚 Books Management"
+            size_hint_y: None
+            height: 55
+            on_press: app.root.current = "books"
+
+        Button:
+            text: "📖 Issue Book"
+            size_hint_y: None
+            height: 55
+            on_press: app.root.current = "issue"
+
+        Button:
+            text: "👨‍🎓 Issued Books"
+            size_hint_y: None
+            height: 55
+            on_press: app.root.current = "issued"
+
+        Button:
+            text: "🚪 Logout"
+            size_hint_y: None
+            height: 55
+            on_press: app.root.current = "login"
+
+<BookScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "📚 Books Management"
+            font_size: "26sp"
+            bold: True
+
+        TextInput:
+            id: book_title
+            hint_text: "Book Title"
+
+        TextInput:
+            id: book_author
+            hint_text: "Author Name"
+
+        TextInput:
+            id: book_quantity
+            hint_text: "Quantity"
+            input_filter: "int"
+
+        Button:
+            text: "➕ Add Book"
+            size_hint_y: None
+            height: 50
+            on_press: root.add_book()
+
+        Button:
+            text: "📖 View Books"
+            size_hint_y: None
+            height: 50
+            on_press: root.view_books()
+
+        ScrollView:
+            Label:
+                id: book_status
+                text: ""
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        Button:
+            text: "⬅ Dashboard"
+            size_hint_y: None
+            height: 50
+            on_press: app.root.current = "dashboard"
+
+<IssueScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "📖 Issue Book"
+            font_size: "26sp"
+            bold: True
+
+        TextInput:
+            id: student_name
+            hint_text: "Student Name"
+
+        TextInput:
+            id: father_name
+            hint_text: "Father Name"
+
+        TextInput:
+            id: student_class
+            hint_text: "Class"
+
+        TextInput:
+            id: roll_no
+            hint_text: "Roll Number"
+
+        TextInput:
+            id: issue_book_name
+            hint_text: "Book Name"
+
+        Button:
+            text: "📤 Issue Book"
+            size_hint_y: None
+            height: 50
+            on_press: root.issue_book()
+
+        Label:
+            id: issue_status
+            text: ""
+
+        Button:
+            text: "⬅ Dashboard"
+            size_hint_y: None
+            height: 50
+            on_press: app.root.current = "dashboard"
+
+<IssuedBooksScreen>:
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "👨‍🎓 Issued Books"
+            font_size: "26sp"
+            bold: True
+
+        Button:
+            text: "📋 Show Issued Books"
+            size_hint_y: None
+            height: 50
+            on_press: root.show_issued_books()
+
+        ScrollView:
+            Label:
+                id: issued_label
+                text: ""
+                size_hint_y: None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        Button:
+            text: "⬅ Dashboard"
+            size_hint_y: None
+            height: 50
+            on_press: app.root.current = "dashboard"
