@@ -38,5 +38,6 @@ android.api = 33
 android.minapi = 21
 android.enable_androidx = True
 
+android.cmdline_tools_version + 11.0
 # Uncomment if you need Android permissions
 # android.permissions = WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
