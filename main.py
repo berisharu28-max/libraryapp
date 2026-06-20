@@ -1,10 +1,7 @@
-import traceback
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
-from kivy.uix.label import Label
 
-# Ekdam safe aur standard KV design (No brackets, no risky paddings)
 KV = '''
 ScreenManager:
     LoginScreen:
@@ -21,38 +18,49 @@ ScreenManager:
 
     BoxLayout:
         orientation: 'vertical'
-        padding: 30
-        spacing: 20
+        padding: 40
+        spacing: 15
         size_hint_y: None
         height: self.minimum_height
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
         Label:
             text: "LIBREMANX"
-            font_size: '32sp'
+            font_size: '36sp'
             bold: True
+            color: 1, 1, 1, 1
 
         Label:
             text: "Library Management System"
-            font_size: '14sp'
-            color: 0.6, 0.6, 0.6, 1
+            font_size: '16sp'
+            color: 0.7, 0.7, 0.7, 1
+
+        Widget:
+            size_hint_y: None
+            height: 10
 
         TextInput:
             hint_text: "Username"
             multiline: False
             size_hint_y: None
-            height: 45
+            height: 48
             background_color: 0.1, 0.18, 0.3, 1
             foreground_color: 1, 1, 1, 1
+            cursor_color: 1, 1, 1, 1
 
         TextInput:
             hint_text: "Password"
             password: True
             multiline: False
             size_hint_y: None
-            height: 45
+            height: 48
             background_color: 0.1, 0.18, 0.3, 1
             foreground_color: 1, 1, 1, 1
+            cursor_color: 1, 1, 1, 1
+
+        Widget:
+            size_hint_y: None
+            height: 10
 
         Button:
             text: "LOGIN"
@@ -75,62 +83,26 @@ ScreenManager:
 
     BoxLayout:
         orientation: 'vertical'
-        padding: 15
+        padding: 20
         spacing: 15
 
-        # Top Bar
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: 50
-            Label:
-                text: "LIBREMANX"
-                font_size: '22sp'
-                bold: True
-                halign: 'left'
-                valign: 'middle'
-                text_size: self.size
-            Label:
-                text: "Profile"
-                font_size: '14sp'
-                size_hint_x: None
-                width: 60
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-            Label:
-                text: "Alerts"
-                font_size: '14sp'
-                size_hint_x: None
-                width: 60
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-
+        # Header Title
         Label:
-            text: "DASHBOARD"
-            font_size: '18sp'
+            text: "Dashboard"
+            font_size: '24sp'
             bold: True
             size_hint_y: None
-            height: 25
+            height: 40
             halign: 'left'
             valign: 'middle'
             text_size: self.size
-
-        TextInput:
-            hint_text: "Search books..."
-            multiline: False
-            size_hint_y: None
-            height: 40
-            background_color: 0.1, 0.18, 0.3, 1
-            foreground_color: 1, 1, 1, 1
 
         # Stats Grid
         GridLayout:
             cols: 3
             spacing: 10
             size_hint_y: None
-            height: 100
+            height: 80
 
             BoxLayout:
                 orientation: 'vertical'
@@ -153,7 +125,7 @@ ScreenManager:
                 orientation: 'vertical'
                 canvas.before:
                     Color:
-                        rgba: 0.15, 0.27, 0.44, 1
+                        rgba: 0.17, 0.61, 0.34, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -164,13 +136,13 @@ ScreenManager:
                 Label:
                     text: "Issued"
                     font_size: '12sp'
-                    color: 0.8, 0.8, 0.8, 1
+                    color: 0.9, 0.9, 0.9, 1
 
             BoxLayout:
                 orientation: 'vertical'
                 canvas.before:
                     Color:
-                        rgba: 0.15, 0.27, 0.44, 1
+                        rgba: 0.84, 0.44, 0.17, 1
                     Rectangle:
                         pos: self.pos
                         size: self.size
@@ -181,55 +153,52 @@ ScreenManager:
                 Label:
                     text: "Available"
                     font_size: '12sp'
-                    color: 0.8, 0.8, 0.8, 1
+                    color: 0.9, 0.9, 0.9, 1
 
-        # Menu List
+        Widget:
+            size_hint_y: None
+            height: 10
+
+        # Action Menu Buttons
         ScrollView:
             BoxLayout:
                 orientation: 'vertical'
-                spacing: 10
+                spacing: 12
                 size_hint_y: None
                 height: self.minimum_height
 
                 Button:
-                    text: "   Books Management"
+                    text: "Books Management"
                     background_normal: ''
                     background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
-                    height: 45
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+                    height: 50
+                    font_size: '15sp'
 
                 Button:
-                    text: "   Issue Book"
+                    text: "Issue Book"
                     background_normal: ''
                     background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
-                    height: 45
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+                    height: 50
+                    font_size: '15sp'
 
                 Button:
-                    text: "   Issued Books"
+                    text: "Issued Books"
                     background_normal: ''
                     background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
-                    height: 45
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+                    height: 50
+                    font_size: '15sp'
 
                 Button:
-                    text: "   Logout"
+                    text: "Logout"
                     background_normal: ''
-                    background_color: 0.4, 0.15, 0.15, 1
+                    background_color: 0.58, 0.22, 0.22, 1
                     size_hint_y: None
-                    height: 45
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
+                    height: 50
+                    font_size: '15sp'
+                    bold: True
                     on_release: root.manager.current = 'login'
 '''
 
@@ -241,13 +210,7 @@ class DashboardScreen(Screen):
 
 class LibraryApp(App):
     def build(self):
-        try:
-            # Agar code sahi hai toh app load hogi
-            return Builder.load_string(KV)
-        except Exception as e:
-            # Agar koi crash karne wali galti hui, toh ye screen par error print karega
-            error_text = f"App Crash Error:\\n\\n{traceback.format_exc()}"
-            return Label(text=error_text, padding=(20, 20), font_size='14sp', halign='left', valign='top')
+        return Builder.load_string(KV)
 
 if __name__ == '__main__':
     LibraryApp().run()
