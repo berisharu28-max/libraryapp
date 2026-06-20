@@ -1,7 +1,10 @@
+import traceback
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
+from kivy.uix.label import Label
 
+# Ekdam safe aur standard KV design (No brackets, no risky paddings)
 KV = '''
 ScreenManager:
     LoginScreen:
@@ -18,7 +21,7 @@ ScreenManager:
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [30, 30, 30, 30]
+        padding: 30
         spacing: 20
         size_hint_y: None
         height: self.minimum_height
@@ -32,26 +35,24 @@ ScreenManager:
         Label:
             text: "Library Management System"
             font_size: '14sp'
-            color: [0.6, 0.6, 0.6, 1]
+            color: 0.6, 0.6, 0.6, 1
 
         TextInput:
-            id: username_input
             hint_text: "Username"
             multiline: False
             size_hint_y: None
             height: 45
-            background_color: [0.1, 0.18, 0.3, 1]
-            foreground_color: [1, 1, 1, 1]
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
 
         TextInput:
-            id: password_input
             hint_text: "Password"
             password: True
             multiline: False
             size_hint_y: None
             height: 45
-            background_color: [0.1, 0.18, 0.3, 1]
-            foreground_color: [1, 1, 1, 1]
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
 
         Button:
             text: "LOGIN"
@@ -60,7 +61,7 @@ ScreenManager:
             size_hint_y: None
             height: 50
             background_normal: ''
-            background_color: [0.15, 0.27, 0.44, 1]
+            background_color: 0.15, 0.27, 0.44, 1
             on_release: root.manager.current = 'dashboard'
 
 <DashboardScreen>:
@@ -74,10 +75,10 @@ ScreenManager:
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [15, 15, 15, 15]
+        padding: 15
         spacing: 15
 
-        # Top Profile Bar
+        # Top Bar
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
@@ -94,6 +95,7 @@ ScreenManager:
                 font_size: '14sp'
                 size_hint_x: None
                 width: 60
+                halign: 'center'
                 valign: 'middle'
                 text_size: self.size
             Label:
@@ -101,10 +103,10 @@ ScreenManager:
                 font_size: '14sp'
                 size_hint_x: None
                 width: 60
+                halign: 'center'
                 valign: 'middle'
                 text_size: self.size
 
-        # Dashboard Title
         Label:
             text: "DASHBOARD"
             font_size: '18sp'
@@ -115,16 +117,15 @@ ScreenManager:
             valign: 'middle'
             text_size: self.size
 
-        # Search Bar
         TextInput:
             hint_text: "Search books..."
             multiline: False
             size_hint_y: None
             height: 40
-            background_color: [0.1, 0.18, 0.3, 1]
-            foreground_color: [1, 1, 1, 1]
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
 
-        # Stats Grid (3 Boxes)
+        # Stats Grid
         GridLayout:
             cols: 3
             spacing: 10
@@ -144,9 +145,9 @@ ScreenManager:
                     bold: True
                     font_size: '18sp'
                 Label:
-                    text: "Total Books"
+                    text: "Total"
                     font_size: '12sp'
-                    color: [0.8, 0.8, 0.8, 1]
+                    color: 0.8, 0.8, 0.8, 1
 
             BoxLayout:
                 orientation: 'vertical'
@@ -163,7 +164,7 @@ ScreenManager:
                 Label:
                     text: "Issued"
                     font_size: '12sp'
-                    color: [0.8, 0.8, 0.8, 1]
+                    color: 0.8, 0.8, 0.8, 1
 
             BoxLayout:
                 orientation: 'vertical'
@@ -180,9 +181,9 @@ ScreenManager:
                 Label:
                     text: "Available"
                     font_size: '12sp'
-                    color: [0.8, 0.8, 0.8, 1]
+                    color: 0.8, 0.8, 0.8, 1
 
-        # Menu Buttons List
+        # Menu List
         ScrollView:
             BoxLayout:
                 orientation: 'vertical'
@@ -191,59 +192,44 @@ ScreenManager:
                 height: self.minimum_height
 
                 Button:
-                    text: "Books Management"
+                    text: "   Books Management"
                     background_normal: ''
-                    background_color: [0.1, 0.18, 0.3, 1]
+                    background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
                     height: 45
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    padding: [15, 0]
 
                 Button:
-                    text: "Issue Book"
+                    text: "   Issue Book"
                     background_normal: ''
-                    background_color: [0.1, 0.18, 0.3, 1]
+                    background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
                     height: 45
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    padding: [15, 0]
 
                 Button:
-                    text: "Issued Books"
+                    text: "   Issued Books"
                     background_normal: ''
-                    background_color: [0.1, 0.18, 0.3, 1]
+                    background_color: 0.1, 0.18, 0.3, 1
                     size_hint_y: None
                     height: 45
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    padding: [15, 0]
 
                 Button:
-                    text: "Member History"
+                    text: "   Logout"
                     background_normal: ''
-                    background_color: [0.1, 0.18, 0.3, 1]
+                    background_color: 0.4, 0.15, 0.15, 1
                     size_hint_y: None
                     height: 45
                     halign: 'left'
                     valign: 'middle'
                     text_size: self.size
-                    padding: [15, 0]
-
-                Button:
-                    text: "Logout"
-                    background_normal: ''
-                    background_color: [0.4, 0.15, 0.15, 1]
-                    size_hint_y: None
-                    height: 45
-                    halign: 'left'
-                    valign: 'middle'
-                    text_size: self.size
-                    padding: [15, 0]
                     on_release: root.manager.current = 'login'
 '''
 
@@ -255,7 +241,13 @@ class DashboardScreen(Screen):
 
 class LibraryApp(App):
     def build(self):
-        return Builder.load_string(KV)
+        try:
+            # Agar code sahi hai toh app load hogi
+            return Builder.load_string(KV)
+        except Exception as e:
+            # Agar koi crash karne wali galti hui, toh ye screen par error print karega
+            error_text = f"App Crash Error:\\n\\n{traceback.format_exc()}"
+            return Label(text=error_text, padding=(20, 20), font_size='14sp', halign='left', valign='top')
 
 if __name__ == '__main__':
     LibraryApp().run()
