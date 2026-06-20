@@ -14,4 +14,4 @@ android.build_tools_version = 33.0.0
 android.ndk = 25b
 android.private_storage = True
 android.accept_sdk_license = True
-android.archs = armeabi-v7a, arm64-v8a
+android.archs = arm64-v8a, armeabi-v7a
