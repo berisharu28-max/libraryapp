@@ -4,7 +4,7 @@ package.name = libraryapp
 package.domain = org.example
 source.dir = .
 version = 0.1
-requirements = python3,kivy,sqlite3
+requirements = python3,kivy,kivymd,sqlite3
 orientation = portrait
 
 # Android configuration
