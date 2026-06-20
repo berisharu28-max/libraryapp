@@ -1,153 +1,311 @@
-import os
-import sqlite3
-from datetime import datetime, timedelta
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
+from kivy.core.window import Window
+
+# Mobile preview size (Sirf laptop par check karne ke liye)
+Window.size = (360, 640)
+
+KV = '''
+ScreenManager:
+    LoginScreen:
+    DashboardScreen:
+
+<LoginScreen>:
+    name: 'login'
+    md_bg_color: [0.06, 0.12, 0.21, 1] # Dark Navy Blue Background
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(24)
+        spacing: dp(24)
+        adaptive_height: True
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+        MDLabel:
+            text: "LIBREMANX"
+            font_style: "H4"
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: [1, 1, 1, 1]
+            bold: True
+
+        MDLabel:
+            text: "Library Management System"
+            font_style: "Subtitle1"
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: [1, 1, 1, 0.6]
+
+        MDTextField:
+            id: username
+            hint_text: "Username"
+            mode: "round"
+            normal_color: [1, 1, 1, 0.1]
+            color_active: [1, 1, 1, 0.2]
+            icon_left: "account"
+
+        MDTextField:
+            id: password
+            hint_text: "Password"
+            password: True
+            mode: "round"
+            normal_color: [1, 1, 1, 0.1]
+            color_active: [1, 1, 1, 0.2]
+            icon_left: "key"
+
+        MDRaisedButton:
+            text: "LOGIN"
+            md_bg_color: [0.15, 0.27, 0.44, 1]
+            text_color: [1, 1, 1, 1]
+            size_hint_x: 1
+            height: dp(48)
+            on_release: root.manager.current = 'dashboard'
+
+<DashboardScreen>:
+    name: 'dashboard'
+    md_bg_color: [0.06, 0.12, 0.21, 1]
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(16)
+
+        # Top Profile Bar
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(56)
+            spacing: dp(10)
+            
+            MDLabel:
+                text: "LIBREMANX"
+                font_style: "H5"
+                bold: True
+                theme_text_color: "Custom"
+                text_color: [1, 1, 1, 1]
+
+            MDIconButton:
+                icon: "account-circle"
+                theme_icon_color: "Custom"
+                icon_color: [0.7, 0.8, 1, 1]
+                
+            MDIconButton:
+                icon: "bell-outline"
+                theme_icon_color: "Custom"
+                icon_color: [1, 1, 1, 1]
+
+        # Dashboard Title
+        MDLabel:
+            text: "DASHBOARD"
+            font_style: "H6"
+            bold: True
+            size_hint_y: None
+            height: dp(30)
+            theme_text_color: "Custom"
+            text_color: [1, 1, 1, 1]
+
+        # Search Bar
+        MDTextField:
+            hint_text: "Search"
+            mode: "round"
+            icon_left: "magnify"
+            size_hint_y: None
+            height: dp(44)
+
+        # Cards Row (Grid)
+        MDGridLayout:
+            cols: 3
+            spacing: dp(8)
+            size_hint_y: None
+            height: dp(130)
+
+            # Total Books Card
+            MDCard:
+                orientation: 'vertical'
+                padding: dp(8)
+                spacing: dp(4)
+                md_bg_color: [0.88, 0.93, 1, 1]
+                radius: [12, ]
+
+                MDIcon:
+                    icon: "bookshelf"
+                    halign: "center"
+                    theme_icon_color: "Custom"
+                    icon_color: [0.1, 0.3, 0.6, 1]
+                MDLabel:
+                    text: "1,245"
+                    halign: "center"
+                    bold: True
+                    font_style: "Subtitle1"
+                    theme_text_color: "Custom"
+                    text_color: [0.1, 0.2, 0.4, 1]
+                MDLabel:
+                    text: "Total Books"
+                    halign: "center"
+                    font_style: "Caption"
+                    theme_text_color: "Custom"
+                    text_color: [0.3, 0.4, 0.5, 1]
+
+            # Issued Books Card
+            MDCard:
+                orientation: 'vertical'
+                padding: dp(8)
+                spacing: dp(4)
+                md_bg_color: [0.88, 0.96, 0.9, 1]
+                radius: [12, ]
+
+                MDIcon:
+                    icon: "book-arrow-up"
+                    halign: "center"
+                    theme_icon_color: "Custom"
+                    icon_color: [0.1, 0.5, 0.2, 1]
+                MDLabel:
+                    text: "112"
+                    halign: "center"
+                    bold: True
+                    font_style: "Subtitle1"
+                    theme_text_color: "Custom"
+                    text_color: [0.1, 0.4, 0.2, 1]
+                MDLabel:
+                    text: "Issued Books"
+                    halign: "center"
+                    font_style: "Caption"
+                    theme_text_color: "Custom"
+                    text_color: [0.2, 0.4, 0.3, 1]
+
+            # Available Books Card
+            MDCard:
+                orientation: 'vertical'
+                padding: dp(8)
+                spacing: dp(4)
+                md_bg_color: [1, 0.93, 0.85, 1]
+                radius: [12, ]
+
+                MDIcon:
+                    icon: "book-check"
+                    halign: "center"
+                    theme_icon_color: "Custom"
+                    icon_color: [0.7, 0.4, 0.1, 1]
+                MDLabel:
+                    text: "1,133"
+                    halign: "center"
+                    bold: True
+                    font_style: "Subtitle1"
+                    theme_text_color: "Custom"
+                    text_color: [0.5, 0.3, 0.1, 1]
+                MDLabel:
+                    text: "Available"
+                    halign: "center"
+                    font_style: "Caption"
+                    theme_text_color: "Custom"
+                    text_color: [0.5, 0.4, 0.3, 1]
+
+        # Menu List Section
+        MDScrollView:
+            MDBoxLayout:
+                orientation: 'vertical'
+                spacing: dp(12)
+                adaptive_height: True
+
+                # Books Management
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(12)
+                    MDIcon:
+                        icon: "notebook-cog"
+                        theme_icon_color: "Custom"
+                        icon_color: [1, 1, 1, 1]
+                        size_hint_x: None
+                        width: dp(24)
+                    MDLabel:
+                        text: "Books Management"
+                        theme_text_color: "Custom"
+                        text_color: [1, 1, 1, 1]
+                    MDIcon:
+                        icon: "chevron-right"
+                        theme_icon_color: "Custom"
+                        icon_color: [1, 1, 1, 0.4]
+                        size_hint_x: None
+                        width: dp(24)
+
+                # Issue Book
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(12)
+                    MDIcon:
+                        icon: "book-plus"
+                        theme_icon_color: "Custom"
+                        icon_color: [1, 1, 1, 1]
+                        size_hint_x: None
+                        width: dp(24)
+                    MDLabel:
+                        text: "Issue Book"
+                        theme_text_color: "Custom"
+                        text_color: [1, 1, 1, 1]
+
+                # Issued Books List
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(12)
+                    MDIcon:
+                        icon: "book-multiple"
+                        theme_icon_color: "Custom"
+                        icon_color: [1, 1, 1, 1]
+                        size_hint_x: None
+                        width: dp(24)
+                    MDLabel:
+                        text: "Issued Books"
+                        theme_text_color: "Custom"
+                        text_color: [1, 1, 1, 1]
+
+                # Member History
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(12)
+                    MDIcon:
+                        icon: "card-account-details"
+                        theme_icon_color: "Custom"
+                        icon_color: [1, 1, 1, 1]
+                        size_hint_x: None
+                        width: dp(24)
+                    MDLabel:
+                        text: "Member History"
+                        theme_text_color: "Custom"
+                        text_color: [1, 1, 1, 1]
+
+                # Logout
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(12)
+                    MDIcon:
+                        icon: "logout"
+                        theme_icon_color: "Custom"
+                        icon_color: [0.9, 0.3, 0.3, 1]
+                        size_hint_x: None
+                        width: dp(24)
+                    MDLabel:
+                        text: "Logout"
+                        theme_text_color: "Custom"
+                        text_color: [0.9, 0.3, 0.3, 1]
+                        bold: True
+'''
 
 class LoginScreen(Screen):
-    def login(self):
-        if self.ids.username.text.strip() == "admin" and self.ids.password.text.strip() == "1234":
-            self.manager.current = "dashboard"
-        else:
-            self.ids.login_status.text = "Invalid Login"
-
-class DashboardScreen(Screen):
-    def on_enter(self):
-        app = App.get_running_app()
-        cursor = app.cursor
-
-        cursor.execute("SELECT COUNT(*) FROM books")
-        self.ids.total_books.text = str(cursor.fetchone()[0])
-
-        cursor.execute("SELECT COUNT(*) FROM issued_books")
-        self.ids.issued_books.text = str(cursor.fetchone()[0])
-
-        cursor.execute("SELECT COALESCE(SUM(quantity),0) FROM books")
-        self.ids.available_books.text = str(cursor.fetchone()[0])
-
-class BookScreen(Screen):
-    def add_book(self):
-        app = App.get_running_app()
-        cursor = app.cursor
-
-        quantity_text = self.ids.book_quantity.text.strip()
-        quantity = int(quantity_text) if quantity_text.isdigit() else 0
-
-        cursor.execute(
-            "INSERT INTO books(title,author,quantity) VALUES(?,?,?)",
-            (self.ids.book_title.text.strip(), self.ids.book_author.text.strip(), quantity)
-        )
-        app.conn.commit()
-        self.ids.book_status.text = "Book Added"
-
-    def view_books(self):
-        app = App.get_running_app()
-        cursor = app.cursor
-
-        cursor.execute("SELECT title,author,quantity FROM books")
-        rows = cursor.fetchall()
-        self.ids.book_status.text = "\n".join([f"{a} | {b} | Qty:{c}" for a,b,c in rows]) or "No Books"
-
-class IssueScreen(Screen):
-    def issue_book(self):
-        app = App.get_running_app()
-        cursor = app.cursor
-
-        book = self.ids.issue_book_name.text.strip()
-        cursor.execute("SELECT author, quantity FROM books WHERE title=?", (book,))
-        row = cursor.fetchone()
-        if not row:
-            self.ids.issue_status.text = "Book Not Found"
-            return
-
-        if row[1] <= 0:
-            self.ids.issue_status.text = "Book Not Available"
-            return
-
-        issue_date = datetime.now().strftime("%d-%m-%Y")
-        return_date = (datetime.now() + timedelta(days=14)).strftime("%d-%m-%Y")
-
-        cursor.execute(
-            "INSERT INTO issued_books"
-            "(student_name,father_name,student_class,roll_no,book_name,author_name,issue_date,return_date)"
-            "VALUES (?,?,?,?,?,?,?,?)",
-            (
-                self.ids.student_name.text.strip(),
-                self.ids.father_name.text.strip(),
-                self.ids.student_class.text.strip(),
-                self.ids.roll_no.text.strip(),
-                book,
-                row[0],
-                issue_date,
-                return_date
-            )
-        )
-        cursor.execute("UPDATE books SET quantity=quantity-1 WHERE title=?", (book,))
-        app.conn.commit()
-        self.ids.issue_status.text = f"Issue: {issue_date}\nReturn: {return_date}"
-
-class IssuedBooksScreen(Screen):
-    def show_issued_books(self):
-        app = App.get_running_app()
-        cursor = app.cursor
-
-        cursor.execute("SELECT student_name, book_name, issue_date, return_date FROM issued_books")
-        rows = cursor.fetchall()
-        self.ids.issued_label.text = "\n\n".join(
-            [f"{a} | {b}\nIssue:{c}\nReturn:{d}" for a,b,c,d in rows]
-        ) or "No Issued Books"
-
-class WindowManager(ScreenManager):
     pass
 
-class LibraryApp(App):
-    db_filename = "library.db"
+class DashboardScreen(Screen):
+    pass
 
+class LibraryApp(MDApp):
     def build(self):
-        self.ensure_data_dir()
-        self.connect_database()
-        return Builder.load_file("library.kv")
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Blue"
+        return Builder.load_string(KV)
 
-    def ensure_data_dir(self):
-        if not os.path.exists(self.user_data_dir):
-            os.makedirs(self.user_data_dir, exist_ok=True)
-
-    def connect_database(self):
-        self.db_path = os.path.join(self.user_data_dir, self.db_filename)
-        self.conn = sqlite3.connect(self.db_path)
-        self.cursor = self.conn.cursor()
-        self.init_database()
-
-    def init_database(self):
-        self.cursor.execute("""
-        CREATE TABLE IF NOT EXISTS books(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            author TEXT,
-            quantity INTEGER
-        )
-        """)
-
-        self.cursor.execute("""
-        CREATE TABLE IF NOT EXISTS issued_books(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_name TEXT,
-            father_name TEXT,
-            student_class TEXT,
-            roll_no TEXT,
-            book_name TEXT,
-            author_name TEXT,
-            issue_date TEXT,
-            return_date TEXT
-        )
-        """)
-        self.conn.commit()
-
-    def on_stop(self):
-        if hasattr(self, "conn"):
-            self.conn.commit()
-            self.conn.close()
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     LibraryApp().run()
