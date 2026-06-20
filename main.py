@@ -1,286 +1,284 @@
-from kivymd.app import MDApp
+from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
+from kivy.core.window import Window
+
+# Laptop par check karne ke liye size (Phone par auto-fit ho jayega)
+Window.size = (360, 640)
 
 KV = '''
 ScreenManager:
     LoginScreen:
     DashboardScreen:
 
+# Custom Button Design for Menu
+<MenuListButton@Button>:
+    background_color: 0, 0, 0, 0
+    background_normal: ''
+    font_size: '16sp'
+    halign: 'left'
+    valign: 'middle'
+    text_size: self.size
+    padding_x: dp(20)
+    canvas.before:
+        Color:
+            rgba: 0.1, 0.18, 0.3, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [8]
+
 <LoginScreen>:
     name: 'login'
-    md_bg_color: 0.06, 0.12, 0.21, 1
+    canvas.before:
+        Color:
+            rgba: 0.06, 0.12, 0.21, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
         padding: dp(24)
-        spacing: dp(24)
-        adaptive_height: True
+        spacing: dp(20)
+        size_hint_y: None
+        height: self.minimum_height
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        MDLabel:
+        Label:
             text: "LIBREMANX"
-            font_style: "H4"
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1
+            font_size: '32sp'
             bold: True
+            color: 1, 1, 1, 1
 
-        MDLabel:
+        Label:
             text: "Library Management System"
-            font_style: "Subtitle1"
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 0.6
+            font_size: '14sp'
+            color: 1, 1, 1, 0.6
 
-        MDTextField:
-            id: username
+        TextInput:
             hint_text: "Username"
-            icon_left: "account"
+            multiline: False
+            size_hint_y: None
+            height: dp(46)
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
+            hint_text_color: 1, 1, 1, 0.4
+            padding: [dp(12), dp(12), dp(12), dp(12)]
 
-        MDTextField:
-            id: password
+        TextInput:
             hint_text: "Password"
             password: True
-            icon_left: "key"
+            multiline: False
+            size_hint_y: None
+            height: dp(46)
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
+            hint_text_color: 1, 1, 1, 0.4
+            padding: [dp(12), dp(12), dp(12), dp(12)]
 
-        MDRaisedButton:
+        Button:
             text: "LOGIN"
-            md_bg_color: 0.15, 0.27, 0.44, 1
-            size_hint_x: 1
-            height: dp(48)
+            bold: True
+            font_size: '16sp'
+            size_hint_y: None
+            height: dp(50)
+            background_color: 0, 0, 0, 0
+            background_normal: ''
             on_release: root.manager.current = 'dashboard'
+            canvas.before:
+                Color:
+                    rgba: 0.15, 0.27, 0.44, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [8]
 
 <DashboardScreen>:
     name: 'dashboard'
-    md_bg_color: 0.06, 0.12, 0.21, 1
+    canvas.before:
+        Color:
+            rgba: 0.06, 0.12, 0.21, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
-    MDBoxLayout:
+    BoxLayout:
         orientation: 'vertical'
         padding: dp(16)
         spacing: dp(16)
 
         # Top Profile Bar
-        MDBoxLayout:
+        BoxLayout:
             size_hint_y: None
             height: dp(56)
-            spacing: dp(10)
-            
-            MDLabel:
+            Label:
                 text: "LIBREMANX"
-                font_style: "H5"
+                font_size: '24sp'
                 bold: True
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
-
-            MDIconButton:
-                icon: "account-circle"
-                theme_text_color: "Custom"
-                text_color: 0.7, 0.8, 1, 1
-                
-            MDIconButton:
-                icon: "bell-outline"
-                theme_text_color: "Custom"
-                text_color: 1, 1, 1, 1
+                halign: 'left'
+                text_size: self.size
+            Label:
+                text: "👤"
+                font_size: '22sp'
+                size_hint_x: None
+                width: dp(40)
+            Label:
+                text: "🔔"
+                font_size: '22sp'
+                size_hint_x: None
+                width: dp(40)
 
         # Dashboard Title
-        MDLabel:
+        Label:
             text: "DASHBOARD"
-            font_style: "H6"
+            font_size: '18sp'
             bold: True
             size_hint_y: None
-            height: dp(30)
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1
+            height: dp(24)
+            halign: 'left'
+            text_size: self.size
 
         # Search Bar
-        MDTextField:
-            hint_text: "Search"
-            icon_left: "magnify"
+        TextInput:
+            hint_text: "🔍  Search books..."
+            multiline: False
             size_hint_y: None
-            height: dp(44)
+            height: dp(42)
+            background_color: 0.1, 0.18, 0.3, 1
+            foreground_color: 1, 1, 1, 1
+            hint_text_color: 1, 1, 1, 0.4
+            padding: [dp(12), dp(12), dp(12), dp(12)]
 
-        # Cards Row
-        MDGridLayout:
+        # Cards Row (Grid Layout)
+        GridLayout:
             cols: 3
             spacing: dp(8)
             size_hint_y: None
-            height: dp(130)
+            height: dp(120)
 
             # Total Books Card
-            MDCard:
+            BoxLayout:
                 orientation: 'vertical'
                 padding: dp(8)
-                spacing: dp(4)
-                md_bg_color: 0.88, 0.93, 1, 1
-                radius: [12, 12, 12, 12]
-
-                MDIcon:
-                    icon: "bookshelf"
-                    halign: "center"
-                    theme_text_color: "Custom"
-                    text_color: 0.1, 0.3, 0.6, 1
-                MDLabel:
+                canvas.before:
+                    Color:
+                        rgba: 0.88, 0.93, 1, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10]
+                Label:
+                    text: "📚"
+                    font_size: '24sp'
+                Label:
                     text: "1,245"
-                    halign: "center"
                     bold: True
-                    font_style: "Subtitle1"
-                    theme_text_color: "Custom"
-                    text_color: 0.1, 0.2, 0.4, 1
-                MDLabel:
+                    color: 0.1, 0.2, 0.4, 1
+                    font_size: '16sp'
+                Label:
                     text: "Total Books"
-                    halign: "center"
-                    font_style: "Caption"
-                    theme_text_color: "Custom"
-                    text_color: 0.3, 0.4, 0.5, 1
+                    color: 0.3, 0.4, 0.5, 1
+                    font_size: '11sp'
 
             # Issued Books Card
-            MDCard:
+            BoxLayout:
                 orientation: 'vertical'
                 padding: dp(8)
-                spacing: dp(4)
-                md_bg_color: 0.88, 0.96, 0.9, 1
-                radius: [12, 12, 12, 12]
-
-                MDIcon:
-                    icon: "book-arrow-up"
-                    halign: "center"
-                    theme_text_color: "Custom"
-                    text_color: 0.1, 0.5, 0.2, 1
-                MDLabel:
+                canvas.before:
+                    Color:
+                        rgba: 0.88, 0.96, 0.9, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10]
+                Label:
+                    text: "📤"
+                    font_size: '24sp'
+                Label:
                     text: "112"
-                    halign: "center"
                     bold: True
-                    font_style: "Subtitle1"
-                    theme_text_color: "Custom"
-                    text_color: 0.1, 0.4, 0.2, 1
-                MDLabel:
-                    text: "Issued Books"
-                    halign: "center"
-                    font_style: "Caption"
-                    theme_text_color: "Custom"
-                    text_color: 0.2, 0.4, 0.3, 1
+                    color: 0.1, 0.4, 0.2, 1
+                    font_size: '16sp'
+                Label:
+                    text: "Issued"
+                    color: 0.2, 0.4, 0.3, 1
+                    font_size: '11sp'
 
             # Available Books Card
-            MDCard:
+            BoxLayout:
                 orientation: 'vertical'
                 padding: dp(8)
-                spacing: dp(4)
-                md_bg_color: 1, 0.93, 0.85, 1
-                radius: [12, 12, 12, 12]
-
-                MDIcon:
-                    icon: "book-check"
-                    halign: "center"
-                    theme_text_color: "Custom"
-                    text_color: 0.7, 0.4, 0.1, 1
-                MDLabel:
+                canvas.before:
+                    Color:
+                        rgba: 1, 0.93, 0.85, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [10]
+                Label:
+                    text: "✅"
+                    font_size: '24sp'
+                Label:
                     text: "1,133"
-                    halign: "center"
                     bold: True
-                    font_style: "Subtitle1"
-                    theme_text_color: "Custom"
-                    text_color: 0.5, 0.3, 0.1, 1
-                MDLabel:
+                    color: 0.5, 0.3, 0.1, 1
+                    font_size: '16sp'
+                Label:
                     text: "Available"
-                    halign: "center"
-                    font_style: "Caption"
-                    theme_text_color: "Custom"
-                    text_color: 0.5, 0.4, 0.3, 1
+                    color: 0.5, 0.4, 0.3, 1
+                    font_size: '11sp'
 
         # Menu List Section
-        MDScrollView:
-            MDBoxLayout:
+        ScrollView:
+            BoxLayout:
                 orientation: 'vertical'
-                spacing: dp(12)
-                adaptive_height: True
+                spacing: dp(10)
+                size_hint_y: None
+                height: self.minimum_height
 
-                # Books Management
-                MDBoxLayout:
+                MenuListButton:
+                    text: "⚙️      Books Management"
                     size_hint_y: None
                     height: dp(50)
-                    spacing: dp(12)
-                    MDIcon:
-                        icon: "notebook-cog"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                        size_hint_x: None
-                        width: dp(24)
-                    MDLabel:
-                        text: "Books Management"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                    MDIcon:
-                        icon: "chevron-right"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 0.4
-                        size_hint_x: None
-                        width: dp(24)
 
-                # Issue Book
-                MDBoxLayout:
+                MenuListButton:
+                    text: "➕      Issue Book"
                     size_hint_y: None
                     height: dp(50)
-                    spacing: dp(12)
-                    MDIcon:
-                        icon: "book-plus"
-                        theme_icon_color: "Custom"
-                        icon_color: [1, 1, 1, 1]
-                        size_hint_x: None
-                        width: dp(24)
-                    MDLabel:
-                        text: "Issue Book"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
 
-                # Issued Books List
-                MDBoxLayout:
+                MenuListButton:
+                    text: "📋      Issued Books"
                     size_hint_y: None
                     height: dp(50)
-                    spacing: dp(12)
-                    MDIcon:
-                        icon: "book-multiple"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                        size_hint_x: None
-                        width: dp(24)
-                    MDLabel:
-                        text: "Issued Books"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
 
-                # Member History
-                MDBoxLayout:
+                MenuListButton:
+                    text: "👤      Member History"
                     size_hint_y: None
                     height: dp(50)
-                    spacing: dp(12)
-                    MDIcon:
-                        icon: "card-account-details"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-                        size_hint_x: None
-                        width: dp(24)
-                    MDLabel:
-                        text: "Member History"
-                        theme_text_color: "Custom"
-                        text_color: 1, 1, 1, 1
-
-                # Logout
-                MDBoxLayout:
+                
+                # Logout Button
+                Button:
+                    text: "🚪      Logout"
+                    font_size: '16sp'
+                    bold: True
+                    color: 0.9, 0.3, 0.3, 1
+                    halign: 'left'
+                    valign: 'middle'
+                    text_size: self.size
+                    padding_x: dp(20)
+                    background_color: 0, 0, 0, 0
+                    background_normal: ''
                     size_hint_y: None
                     height: dp(50)
-                    spacing: dp(12)
-                    MDIcon:
-                        icon: "logout"
-                        theme_text_color: "Custom"
-                        text_color: 0.9, 0.3, 0.3, 1
-                        size_hint_x: None
-                        width: dp(24)
-                    MDLabel:
-                        text: "Logout"
-                        theme_text_color: "Custom"
-                        text_color: 0.9, 0.3, 0.3, 1
-                        bold: True
+                    on_release: root.manager.current = 'login'
+                    canvas.before:
+                        Color:
+                            rgba: 0.18, 0.1, 0.15, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [8]
 '''
 
 class LoginScreen(Screen):
@@ -289,10 +287,8 @@ class LoginScreen(Screen):
 class DashboardScreen(Screen):
     pass
 
-class LibraryApp(MDApp):
+class LibraryApp(App):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Blue"
         return Builder.load_string(KV)
 
 if __name__ == '__main__':
