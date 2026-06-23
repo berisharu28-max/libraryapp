@@ -10,269 +10,324 @@ ScreenManager:
     IssuedBooksScreen:
         name: "issued"
 
+<StyledButton@Button>:
+    background_normal: ''
+    background_down: ''
+    background_color: 0.12, 0.56, 0.95, 1
+    color: 1, 1, 1, 1
+    font_size: '16sp'
+    bold: True
+    size_hint_y: None
+    height: 52
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [16]
+
+<AltButton@StyledButton>:
+    background_color: 0.24, 0.30, 0.44, 1
+
+<StyledTextInput@TextInput>:
+    background_normal: ''
+    background_active: ''
+    foreground_color: 1, 1, 1, 1
+    cursor_color: 1, 1, 1, 1
+    background_color: 0.12, 0.16, 0.24, 1
+    padding: [18, 14]
+    font_size: '16sp'
+    size_hint_y: None
+    height: 52
+    multiline: False
+    hint_text_color: 0.76, 0.80, 0.92, 1
+    halign: 'left'
+
+<HeaderLabel@Label>:
+    color: 1, 1, 1, 1
+    font_size: '28sp'
+    bold: True
+    size_hint_y: None
+    height: self.texture_size[1] + 10
+
+<BaseScreen@BoxLayout>:
+    orientation: 'vertical'
+    spacing: 16
+    padding: [20, 18, 20, 20]
+    canvas.before:
+        Color:
+            rgba: 0.08, 0.10, 0.14, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
 <LoginScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        padding: 40
-        spacing: 20
-        canvas.before:
-            Color:
-                rgba: 0.09, 0.11, 0.16, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
+    BaseScreen:
+        spacing: 24
 
-        Label:
-            text: "📚 Library Management System"
-            font_size: "30sp"
-            bold: True
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: 180
+            padding: [24, 24, 24, 24]
+            canvas.before:
+                Color:
+                    rgba: 0.12, 0.17, 0.24, 1
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [24]
 
-        TextInput:
+            Label:
+                text: 'Library Management'
+                color: 1, 1, 1, 1
+                font_size: '34sp'
+                bold: True
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+
+            Label:
+                text: 'Secure login for staff and library administrators.'
+                color: 0.72, 0.78, 0.92, 1
+                font_size: '15sp'
+                halign: 'left'
+                valign: 'middle'
+                text_size: self.size
+
+        StyledTextInput:
             id: username
-            hint_text: "Username"
-            multiline: False
-            size_hint_y: None
-            height: 50
+            hint_text: 'Username'
 
-        TextInput:
+        StyledTextInput:
             id: password
-            hint_text: "Password"
+            hint_text: 'Password'
             password: True
-            multiline: False
-            size_hint_y: None
-            height: 50
 
-        Button:
-            text: "LOGIN"
-            size_hint_y: None
-            height: 55
+        StyledButton:
+            text: 'LOGIN'
             on_press: root.login()
 
         Label:
             id: login_status
-            text: ""
+            text: ''
+            color: 1, 0.42, 0.42, 1
+            font_size: '14sp'
+            size_hint_y: None
+            height: self.texture_size[1]
 
 <DashboardScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        padding: 20
-        spacing: 15
-        canvas.before:
-            Color:
-                rgba: 0.09, 0.11, 0.16, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-
-        Label:
-            text: "🏠 Dashboard"
-            font_size: "28sp"
-            bold: True
-            size_hint_y: None
-            height: 50
+    BaseScreen:
+        HeaderLabel:
+            text: 'Dashboard'
 
         GridLayout:
             cols: 3
-            spacing: 10
+            spacing: 14
             size_hint_y: None
-            height: 120
+            height: 140
 
             BoxLayout:
-                orientation: "vertical"
+                orientation: 'vertical'
+                padding: [18, 14]
                 canvas.before:
                     Color:
-                        rgba: 0.2, 0.6, 1, 1
+                        rgba: 0.22, 0.58, 0.96, 1
                     RoundedRectangle:
                         pos: self.pos
                         size: self.size
-                        radius: [15]
+                        radius: [18]
                 Label:
-                    text: "📚 Total"
+                    text: 'Total Books'
+                    color: 1, 1, 1, 1
+                    font_size: '14sp'
                 Label:
                     id: total_books
-                    text: "0"
-                    font_size: "24sp"
+                    text: '0'
+                    color: 1, 1, 1, 1
+                    font_size: '28sp'
+                    bold: True
 
             BoxLayout:
-                orientation: "vertical"
+                orientation: 'vertical'
+                padding: [18, 14]
                 canvas.before:
                     Color:
-                        rgba: 0.2, 0.8, 0.4, 1
+                        rgba: 0.21, 0.84, 0.42, 1
                     RoundedRectangle:
                         pos: self.pos
                         size: self.size
-                        radius: [15]
+                        radius: [18]
                 Label:
-                    text: "📖 Issued"
+                    text: 'Issued'
+                    color: 1, 1, 1, 1
+                    font_size: '14sp'
                 Label:
                     id: issued_books
-                    text: "0"
-                    font_size: "24sp"
+                    text: '0'
+                    color: 1, 1, 1, 1
+                    font_size: '28sp'
+                    bold: True
 
             BoxLayout:
-                orientation: "vertical"
+                orientation: 'vertical'
+                padding: [18, 14]
                 canvas.before:
                     Color:
-                        rgba: 1, 0.5, 0.2, 1
+                        rgba: 1, 0.59, 0.24, 1
                     RoundedRectangle:
                         pos: self.pos
                         size: self.size
-                        radius: [15]
+                        radius: [18]
                 Label:
-                    text: "✅ Available"
+                    text: 'Available'
+                    color: 1, 1, 1, 1
+                    font_size: '14sp'
                 Label:
                     id: available_books
-                    text: "0"
-                    font_size: "24sp"
+                    text: '0'
+                    color: 1, 1, 1, 1
+                    font_size: '28sp'
+                    bold: True
 
-        Button:
-            text: "📚 Books Management"
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 12
             size_hint_y: None
-            height: 55
-            on_press: app.root.current = "books"
+            height: 250
 
-        Button:
-            text: "📖 Issue Book"
-            size_hint_y: None
-            height: 55
-            on_press: app.root.current = "issue"
+            StyledButton:
+                text: 'Books Management'
+                on_press: app.root.current = 'books'
 
-        Button:
-            text: "👨‍🎓 Issued Books"
-            size_hint_y: None
-            height: 55
-            on_press: app.root.current = "issued"
+            StyledButton:
+                text: 'Issue Book'
+                on_press: app.root.current = 'issue'
 
-        Button:
-            text: "🚪 Logout"
-            size_hint_y: None
-            height: 55
-            on_press: app.root.current = "login"
+            StyledButton:
+                text: 'Issued Books'
+                on_press: app.root.current = 'issued'
+
+        Widget:
+
+        AltButton:
+            text: 'Logout'
+            on_press: app.root.current = 'login'
 
 <BookScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        padding: 20
-        spacing: 10
+    BaseScreen:
+        HeaderLabel:
+            text: 'Books Management'
 
-        Label:
-            text: "📚 Books Management"
-            font_size: "26sp"
-            bold: True
-
-        TextInput:
+        StyledTextInput:
             id: book_title
-            hint_text: "Book Title"
+            hint_text: 'Book Title'
 
-        TextInput:
+        StyledTextInput:
             id: book_author
-            hint_text: "Author Name"
+            hint_text: 'Author Name'
 
-        TextInput:
+        StyledTextInput:
             id: book_quantity
-            hint_text: "Quantity"
-            input_filter: "int"
+            hint_text: 'Quantity'
+            input_filter: 'int'
 
-        Button:
-            text: "➕ Add Book"
-            size_hint_y: None
-            height: 50
+        StyledButton:
+            text: 'Add Book'
             on_press: root.add_book()
 
-        Button:
-            text: "📖 View Books"
-            size_hint_y: None
-            height: 50
+        StyledButton:
+            text: 'View Books'
             on_press: root.view_books()
 
         ScrollView:
+            do_scroll_x: False
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+
             Label:
                 id: book_status
-                text: ""
+                text: ''
+                color: 0.90, 0.90, 0.95, 1
                 size_hint_y: None
                 text_size: self.width, None
                 height: self.texture_size[1]
+                halign: 'left'
+                valign: 'top'
 
-        Button:
-            text: "⬅ Dashboard"
-            size_hint_y: None
-            height: 50
-            on_press: app.root.current = "dashboard"
+        AltButton:
+            text: 'Back to Dashboard'
+            on_press: app.root.current = 'dashboard'
 
 <IssueScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        padding: 20
-        spacing: 10
+    BaseScreen:
+        HeaderLabel:
+            text: 'Issue Book'
 
-        Label:
-            text: "📖 Issue Book"
-            font_size: "26sp"
-            bold: True
-
-        TextInput:
+        StyledTextInput:
             id: student_name
-            hint_text: "Student Name"
+            hint_text: 'Student Name'
 
-        TextInput:
+        StyledTextInput:
             id: father_name
-            hint_text: "Father Name"
+            hint_text: 'Father Name'
 
-        TextInput:
+        StyledTextInput:
             id: student_class
-            hint_text: "Class"
+            hint_text: 'Class'
 
-        TextInput:
+        StyledTextInput:
             id: roll_no
-            hint_text: "Roll Number"
+            hint_text: 'Roll Number'
 
-        TextInput:
+        StyledTextInput:
             id: issue_book_name
-            hint_text: "Book Name"
+            hint_text: 'Book Name'
 
-        Button:
-            text: "📤 Issue Book"
-            size_hint_y: None
-            height: 50
+        StyledButton:
+            text: 'Issue Book'
             on_press: root.issue_book()
 
         Label:
             id: issue_status
-            text: ""
-
-        Button:
-            text: "⬅ Dashboard"
+            text: ''
+            color: 0.90, 0.90, 0.95, 1
+            font_size: '15sp'
             size_hint_y: None
-            height: 50
-            on_press: app.root.current = "dashboard"
+            height: self.texture_size[1]
+            text_size: self.width, None
+            halign: 'left'
+            valign: 'middle'
+
+        AltButton:
+            text: 'Back to Dashboard'
+            on_press: app.root.current = 'dashboard'
 
 <IssuedBooksScreen>:
-    BoxLayout:
-        orientation: "vertical"
-        padding: 20
-        spacing: 10
+    BaseScreen:
+        HeaderLabel:
+            text: 'Issued Books'
 
-        Label:
-            text: "👨‍🎓 Issued Books"
-            font_size: "26sp"
-            bold: True
-
-        Button:
-            text: "📋 Show Issued Books"
-            size_hint_y: None
-            height: 50
+        StyledButton:
+            text: 'Show Issued Books'
             on_press: root.show_issued_books()
 
         ScrollView:
+            do_scroll_x: False
+            bar_width: 8
+            scroll_type: ['bars', 'content']
+
             Label:
                 id: issued_label
-                text: ""
+                text: ''
+                color: 0.90, 0.90, 0.95, 1
                 size_hint_y: None
                 text_size: self.width, None
                 height: self.texture_size[1]
+                halign: 'left'
+                valign: 'top'
 
-        Button:
-            text: "⬅ Dashboard"
-            size_hint_y: None
-            height: 50
-            on_press: app.root.current = "dashboard"
+        AltButton:
+            text: 'Back to Dashboard'
+            on_press: app.root.current = 'dashboard'
